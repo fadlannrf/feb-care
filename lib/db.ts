@@ -1,11 +1,12 @@
 import path from 'node:path';
-import {mkdir,readFile} from 'node:fs/promises';
+import {mkdir} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
 import postgres from 'postgres';
 import {categories} from './shared.ts';
 import {digest,passwordHash} from './security.ts';
 import {runJobs} from './jobs.ts';
+import {schemaSql} from './schema.ts';
 export type Row=Record<string,any>;
 export interface Database{q<T=Row>(sql:string,params?:any[]):Promise<T[]>;tx<T>(fn:(db:Database)=>Promise<T>):Promise<T>}
 export const dataDir=()=>path.resolve(process.env.DATA_DIR||'./data');
@@ -14,7 +15,7 @@ export const demoAccounts=[{id:'demo-student',name:'Nadia Putri',role:'student',
 async function connect():Promise<Database>{let db:Database;
  if(process.env.DATABASE_URL){const sql=postgres(process.env.DATABASE_URL,{max:10,idle_timeout:20,connect_timeout:10});const wrap=(connection:any):Database=>({q:async(s,p=[])=>Array.from(await connection.unsafe(s,p)),tx:async(fn)=>connection.begin((trx:any)=>fn(wrap(trx)))});db=wrap(sql);}
  else{if(process.env.NODE_ENV==='production')throw Error('DATABASE_URL PostgreSQL wajib untuk production.');await mkdir(dataDir(),{recursive:true});const lite=new PGlite(path.join(dataDir(),'postgres'));await lite.waitReady;const wrap=(connection:any):Database=>({q:async(s,p=[])=>{const result=await connection.query(s,p);return result.rows;},tx:async(fn)=>connection.transaction((trx:any)=>fn(wrap(trx)))});db=wrap(lite);}
- const schema=await readFile(path.join(process.cwd(),'db/schema.sql'),'utf8');await db.tx(async trx=>{for(const sql of schema.split(';').map(s=>s.trim()).filter(Boolean))await trx.q(sql);});
+ await db.tx(async trx=>{for(const sql of schemaSql.split(';').map(s=>s.trim()).filter(Boolean))await trx.q(sql);});
  await db.tx(async trx=>{const seeded=await trx.q("INSERT INTO app_meta(key,value) VALUES('foundation','1') ON CONFLICT DO NOTHING RETURNING key");if(!seeded.length)return;
  for(const [id,name] of [['akademik','Layanan Akademik'],['keuangan','Keuangan & Beasiswa'],['umum','Sarana & Layanan Umum'],['it','Teknologi Informasi'],['mahasiswa','Kemahasiswaan'],['perlindungan','Tim Perlindungan Mahasiswa']])await trx.q('INSERT INTO units(id,name) VALUES($1,$2)',[id,name]);
  for(const c of categories){const unit=['akademik','pembelajaran','studi'].includes(c.id)?'akademik':c.id==='keuangan'?'keuangan':c.id==='teknologi'?'it':c.id==='etika'?'perlindungan':['kemahasiswaan','aspirasi'].includes(c.id)?'mahasiswa':'umum';await trx.q('INSERT INTO categories(id,name,icon,description,unit_id,sla_hours,sensitive) VALUES($1,$2,$3,$4,$5,$6,$7)',[c.id,c.name,c.icon,c.description,unit,c.id==='mendesak'?24:72,c.id==='etika']);}
