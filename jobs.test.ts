@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
-import {runJobs} from '../lib/jobs.ts';
-import type {Database} from '../lib/db.ts';
+import {runJobs} from './lib/jobs.ts';
+import type {Database} from './lib/db.ts';
 test('SLA worker escalates overdue tickets once and notifies authorized roles',async()=>{
  const lite=new PGlite();await lite.waitReady;
  const wrap=(c:any):Database=>({q:async(s,p=[])=>{const result=await c.query(s,p);return result.rows;},tx:fn=>c.transaction((tx:any)=>fn(wrap(tx)))});
  const db=wrap(lite);
- try{await lite.exec(await readFile(new URL('../db/schema.sql',import.meta.url),'utf8'));
+ try{await lite.exec(await readFile(new URL('./db/schema.sql',import.meta.url),'utf8'));
  await db.q("INSERT INTO units(id,name) VALUES('unit','Test unit')");
  await db.q("INSERT INTO categories(id,name,icon,description,unit_id,sla_hours) VALUES('category','Test','book','Test','unit',24)");
  await db.q("INSERT INTO users(id,name,email,role) VALUES('triage','Test Triage','triage@example.test','triage'),('leader','Test Leader','leader@example.test','leader')");
