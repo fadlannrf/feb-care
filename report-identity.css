@@ -1,0 +1,5 @@
+.reporter-identity{display:flex;align-items:flex-start;gap:13px;margin:18px 0;padding:15px 16px;border:1px solid var(--tone-ffffff10);border-radius:10px;background:var(--tone-121924);color:var(--tone-7f9ed8)}
+.reporter-identity>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.reporter-identity small{font:9px var(--mono);letter-spacing:.08em;color:var(--tone-667c9f)}
+.reporter-identity strong{font-size:12px;font-weight:500;color:var(--tone-c6cedd)}
+.reporter-identity span{font-size:11px;color:var(--tone-718199);overflow-wrap:anywhere}
