@@ -1,4 +1,4 @@
-export const schemaSql = String.raw\`
+export const schemaSql = String.raw`
 CREATE TABLE IF NOT EXISTS app_meta (key text PRIMARY KEY, value text NOT NULL);
 CREATE TABLE IF NOT EXISTS units (id text PRIMARY KEY, name text NOT NULL UNIQUE);
 CREATE TABLE IF NOT EXISTS categories (id text PRIMARY KEY, name text NOT NULL, icon text NOT NULL DEFAULT 'message', description text NOT NULL DEFAULT '', unit_id text REFERENCES units(id), sla_hours integer NOT NULL DEFAULT 72 CHECK(sla_hours BETWEEN 1 AND 720), sensitive boolean NOT NULL DEFAULT false, active boolean NOT NULL DEFAULT true);
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS tickets (
  location text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
  due_at timestamptz NOT NULL, resolved_at timestamptz, version integer NOT NULL DEFAULT 1,
  rating integer CHECK(rating BETWEEN 1 AND 5), feedback text, escalated boolean NOT NULL DEFAULT false
-);
+ );
 CREATE INDEX IF NOT EXISTS tickets_reporter_date_idx ON tickets(reporter_id,created_at DESC);
 CREATE INDEX IF NOT EXISTS tickets_queue_idx ON tickets(unit_id,status,created_at DESC);
 CREATE INDEX IF NOT EXISTS tickets_category_idx ON tickets(category_id,created_at DESC);
@@ -38,4 +38,4 @@ CREATE INDEX IF NOT EXISTS audit_date_idx ON audit_logs(created_at DESC);
 CREATE TABLE IF NOT EXISTS outbox (id text PRIMARY KEY, user_id text NOT NULL REFERENCES users(id), subject text NOT NULL, body text NOT NULL, status text NOT NULL DEFAULT 'pending', attempts integer NOT NULL DEFAULT 0, last_error text, next_attempt_at timestamptz NOT NULL DEFAULT now(), created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS outbox_pending_idx ON outbox(status,next_attempt_at);
 CREATE TABLE IF NOT EXISTS rate_limits (key text PRIMARY KEY, count integer NOT NULL, expires_at timestamptz NOT NULL);
-\`;
+`;
