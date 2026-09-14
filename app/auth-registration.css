@@ -1,0 +1,20 @@
+.auth-form-content .registration-form{gap:16px}
+.registration-form .form-two{gap:12px}
+.registration-form .field-hint{width:100%}
+.registration-form select{width:100%}
+@media(max-width:950px){.registration-form .form-two{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.registration-form .form-two{grid-template-columns:1fr}}
+.privacy-reassurance-backdrop{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;width:100vw;height:100dvh;padding:20px;background:var(--tone-080b12a8);backdrop-filter:blur(10px);animation:privacy-fade .28s ease both}
+.privacy-reassurance{position:relative;width:min(470px,100%);padding:38px;border:1px solid var(--tone-7188b442);border-radius:22px;background:var(--tone-181f2a);color:var(--text);box-shadow:0 35px 110px var(--tone-0008);text-align:center;animation:privacy-rise .4s cubic-bezier(.22,1,.36,1) both}
+.privacy-close{position:absolute;right:18px;top:18px;display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--tone-ffffff14);border-radius:50%;background:transparent;color:var(--tone-9aa5b8)}
+.privacy-close:hover{border-color:var(--tone-7693eb66);color:var(--text);transform:rotate(8deg)}
+.privacy-emblem{display:grid;place-items:center;width:68px;height:68px;margin:0 auto 22px;border:1px solid var(--tone-7895ee66);border-radius:50%;background:var(--tone-24385c3a);color:var(--tone-8eabff)}
+.privacy-reassurance>.eyebrow{justify-content:center;font-size:10px;color:var(--tone-8fa5dc)}
+.privacy-reassurance h3{margin:17px 0 14px;font-size:27px;line-height:1.25;letter-spacing:-.035em}
+.privacy-reassurance p{font-size:13px;line-height:1.8;color:var(--tone-929db0)}
+.privacy-reassurance strong{display:block;margin:16px 0 24px;font-size:13px;color:var(--tone-c6d3ee)}
+.privacy-reassurance>.button{justify-content:center}
+@keyframes privacy-fade{from{opacity:0}to{opacity:1}}
+@keyframes privacy-rise{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@media(max-width:520px){.privacy-reassurance{padding:34px 24px 26px}.privacy-reassurance h3{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.privacy-reassurance-backdrop,.privacy-reassurance{animation:none}}
