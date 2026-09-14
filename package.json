@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "next dev --webpack --hostname 127.0.0.1 --port 3002",
     "build": "next build --webpack",
-    "start": "next start --hostname 127.0.0.1 --port 3002",
+    "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "test:integration": "node tests/integration.mjs",
