@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {passwordHash,passwordMatches,secret,digest,textValue,emailValue,allowTransition,detectFile} from '../lib/security.ts';
-import {scope,safeTicket} from '../lib/tickets.ts';
-import type {User} from '../lib/shared.ts';
+import {passwordHash,passwordMatches,secret,digest,textValue,emailValue,allowTransition,detectFile} from './lib/security.ts';
+import {scope,safeTicket} from './lib/tickets.ts';
+import type {User} from './lib/shared.ts';
 test('Passwords use salted hashes and reject invalid input',()=>{const a=passwordHash('a-long-test-password'),b=passwordHash('a-long-test-password');assert.notEqual(a,b);assert.ok(passwordMatches('a-long-test-password',a));assert.ok(!passwordMatches('incorrect',a));assert.ok(!passwordMatches('incorrect',null));assert.ok(!passwordMatches('incorrect','broken'));});
 test('Tracking secrets are distinct and hashed',()=>{const a=secret(),b=secret();assert.notEqual(a,b);assert.equal(digest(a).length,64);assert.notEqual(digest(a),a);});
 test('Validation rejects short text and malformed email',()=>{assert.throws(()=>textValue('a','Title',8));assert.throws(()=>emailValue('not email'));assert.equal(emailValue('NADIA@example.test'),'nadia@example.test');});
