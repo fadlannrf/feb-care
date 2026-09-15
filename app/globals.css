@@ -24,5 +24,7 @@
 /* Keep statement copy balanced after hiding decorative marks. */.statement-bottom{justify-content:flex-end}
 
 /* Keep the sidebar footer visible while dashboard content scrolls. */
-.sidebar{overflow-y:auto;overflow-x:hidden}
-.sidebar-bottom{position:sticky;bottom:0;z-index:2;margin-top:auto;padding-top:40px;background:linear-gradient(to bottom,transparent 0,var(--tone-14171c) 34px,var(--tone-14171c) 100%)}
+.sidebar{overflow-y:auto;overflow-x:hidden}.sidebar-bottom{position:fixed;left:0;bottom:0;z-index:26;width:235px;margin:0;padding:28px 19px 15px;background:linear-gradient(to bottom,transparent 0,var(--tone-14171c) 28px,var(--tone-14171c) 100%)}
+@media(max-width:1200px){.sidebar-bottom{width:210px;padding-inline:14px}}
+@media(max-width:950px){.sidebar-bottom{width:190px;padding-inline:10px}}
+@media(max-width:700px){.sidebar-bottom{width:235px;padding-inline:19px}}
