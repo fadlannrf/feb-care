@@ -1,7 +1,7 @@
 /* Source: user's portfolio main.css/app.js. Same hop/common curves and timeline. */
 :root{--motion-hop:cubic-bezier(.87,0,.13,1);--motion-common:cubic-bezier(.23,.65,.74,1.09);--ease-out:cubic-bezier(.23,.65,.74,1.09)}
 html{scrollbar-gutter:stable}html.lenis{scroll-behavior:auto!important}.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:hidden}
-.route-surface{min-height:100vh;animation:route-in .65s var(--motion-common) both}
+.route-surface{min-height:100vh;animation:route-in .65s var(--motion-common)}
 .navigation-drawer{padding:0;overflow:hidden;clip-path:inset(0);border-left:0}
 .navigation-drawer[open],.navigation-drawer.is-closing{display:block;animation:none;transform:none}
 .navigation-drawer::backdrop{background:#11182760;backdrop-filter:blur(14px);animation:backdrop-in .5s cubic-bezier(.215,.61,.355,1) both}
@@ -34,12 +34,3 @@ html{scrollbar-gutter:stable}html.lenis{scroll-behavior:auto!important}.lenis:no
 .hero-line{display:block;overflow:hidden;padding:0 .025em .07em 0;margin-bottom:-.07em}
 .hero-line>span{display:block;animation:hero-line-in 1s var(--motion-hop) both}
 .hero-line:nth-child(2)>span{animation-delay:.08s}.hero-line:nth-child(3)>span{animation-delay:.16s}
-.hero-copy>.eyebrow,.hero-copy>p,.hero-actions,.hero-assurance{animation:content-in .75s var(--motion-common) backwards;animation-delay:.25s}
-.hero-copy>p{animation-delay:.45s}.hero-actions{animation-delay:.55s}.hero-assurance{animation-delay:.65s}
-.hero-art{animation:art-in 1.2s var(--motion-common) backwards;animation-delay:.25s}
-@keyframes hero-line-in{from{transform:translateY(114%)}to{transform:translateY(0)}}
-@keyframes art-in{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
-@keyframes route-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(max-width:850px){.drawer-content{padding:30px}.drawer-close{top:30px;right:22px}.navigation-drawer::backdrop{backdrop-filter:blur(6px)}}
-@media(max-width:700px){.drawer-content{padding:23px}.drawer-close{top:23px;right:23px}.drawer-top{min-height:40px}.drawer-body nav>a>.drawer-arrow,.drawer-arrow svg{width:20px;height:20px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal.motion-ready{opacity:1;transform:none}}
