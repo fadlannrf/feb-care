@@ -28,3 +28,5 @@
 @media(max-width:1200px){.sidebar-bottom{width:210px;padding-inline:14px}}
 @media(max-width:950px){.sidebar-bottom{width:190px;padding-inline:10px}}
 @media(max-width:700px){.sidebar-bottom{width:235px;padding-inline:19px}}
+/* Keep fixed footer anchored to viewport when scrolls. */
+.sidebar{overflow:hidden!important}
