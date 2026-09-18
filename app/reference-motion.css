@@ -1,3 +1,4 @@
+html.dashboard-native-scroll,html.dashboard-native-scroll body{scroll-behavior:auto!important}
 /* Source: user's portfolio main.css/app.js. Same hop/common curves and timeline. */
 :root{--motion-hop:cubic-bezier(.87,0,.13,1);--motion-common:cubic-bezier(.23,.65,.74,1.09);--ease-out:cubic-bezier(.23,.65,.74,1.09)}
 html{scrollbar-gutter:stable}html.lenis{scroll-behavior:auto!important}html.ticket-detail-native-scroll{scroll-behavior:auto!important}.ticket-detail-native-scroll .route-surface{scroll-behavior:auto!important}.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:hidden}
