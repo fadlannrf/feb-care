@@ -80,7 +80,7 @@ export function Header(){
 <p>
 <span className="drawer-line">Suara Mahasiswa,<br/>Aksi Nyata FEB.</span>
 </p>
-<Link href={user?'/dashboard':'/masuk'} onClick={e=>navigate(e,user?'/dashboard':'/masuk')}>{user?'Buka ruang kamu':'Masuk ke ruang kamu'} <Icon name="arrow" size={17}/>
+<Link className="drawer-login-button" href={user?'/dashboard':'/masuk'} onClick={e=>navigate(e,user?'/dashboard':'/masuk')}>{user?'Buka ruang kamu':'Masuk'}
 </Link>
 <span className="drawer-note">
 <span className="drawer-line">Complaints, Assistance,<br/>Response & Engagement</span>
