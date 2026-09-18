@@ -102,7 +102,7 @@ html .dashboard-layout .sidebar-bottom{
   background:linear-gradient(to bottom,transparent 0,var(--dash-sidebar) 28px,var(--dash-sidebar) 100%);
 }
 html .dashboard-layout .sidebar-note{
-  border-color:rgba(82,164,83,.16);
+  border-color:rgba(95,126,234,.18);
   border-radius:14px;
   background:linear-gradient(145deg,rgba(95,126,234,.18),rgba(95,126,234,.05)),var(--dash-surface);
   padding:16px 14px;
@@ -249,7 +249,7 @@ html .dashboard-layout .panel-title>.mono{color:var(--dash-muted)}
 html .dashboard-layout .panel-title>svg{color:var(--dash-icon)}
 html .dashboard-layout .chart-legend{color:var(--dash-muted)}
 html .dashboard-layout .chart-legend .legend-blue{background:var(--dash-accent-strong)}
-html .dashboard-layout .chart-legend .legend-teal{background:#8bcf8c}
+html .dashboard-layout .chart-legend .legend-teal{background:#9aaef5}
 html .dashboard-layout .chart-footnote{color:var(--dash-muted)}
 html .dashboard-layout .distribution-list>div>div:first-child{color:var(--dash-muted)}
 html .dashboard-layout .distribution-list strong{color:var(--dash-ink)}
@@ -373,6 +373,9 @@ html .dashboard-layout .badge.blue,
 html .dashboard-layout .badge.purple{background:rgba(95,126,234,.15);color:var(--dash-accent-ink)}
 html[data-theme='dark'] .dashboard-layout .badge.amber{background:#4b3b20;color:#f4cb72}
 html[data-theme='dark'] .dashboard-layout .badge.red{background:#512d2b;color:#f0a29b}
+
+/* Keep the dashboard focused on the live FEB CARE data. */
+html .dashboard-layout .dashboard-welcome{display:none}
 
 @media (max-width:1200px){
   html .dashboard-layout .sidebar{width:210px;padding-inline:14px}
