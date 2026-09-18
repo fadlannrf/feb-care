@@ -1,6 +1,6 @@
 /* Source: user's portfolio main.css/app.js. Same hop/common curves and timeline. */
 :root{--motion-hop:cubic-bezier(.87,0,.13,1);--motion-common:cubic-bezier(.23,.65,.74,1.09);--ease-out:cubic-bezier(.23,.65,.74,1.09)}
-html{scrollbar-gutter:stable}html.lenis{scroll-behavior:auto!important}html.ticket-detail-native-scroll{scroll-behavior:auto!important}.ticket-detail-native-scroll .route-surface{scroll-behavior:auto!important}.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:hidden}
+html{scrollbar-gutter:stable}html.lenis{scroll-behavior:auto!important}html.dashboard-native-scroll,html.dashboard-native-scroll body{scroll-behavior:auto!important}html.ticket-detail-native-scroll{scroll-behavior:auto!important}.ticket-detail-native-scroll .route-surface{scroll-behavior:auto!important}.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:hidden}
 .route-surface{min-height:100vh;animation:route-in .65s var(--motion-common)}
 .navigation-drawer{padding:0;overflow:hidden;clip-path:inset(0);border-left:0}
 .navigation-drawer[open],.navigation-drawer.is-closing{display:block;animation:none;transform:none}
