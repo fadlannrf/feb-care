@@ -213,6 +213,12 @@ html[data-theme="light"] .workflow-hero{--workflow-card:linear-gradient(145deg,#
 }
 @media (max-width:700px){
   .report-form-card>.form-navigation{margin-top:clamp(28px,5vh,42px)}
-  .report-layout{height:auto;flex:none;min-height:0}
-  .report-form-card{flex:0 1 auto;height:auto;max-height:calc(100dvh - 150px);overflow-y:auto}
+  .report-workspace{height:auto;min-height:0;overflow:visible;padding-bottom:24px}
+  .report-layout{height:auto;flex:none;min-height:0;width:100%;min-width:0}
+  .report-form-card{align-self:stretch;width:100%;min-width:0;flex:0 1 auto;height:auto;max-height:calc(100dvh - 150px);overflow-y:auto}
+}
+
+@media (min-width:701px){
+  .report-workspace{height:auto;min-height:0;overflow:visible;padding-bottom:28px}
+  .report-layout{height:auto;align-items:start}
 }

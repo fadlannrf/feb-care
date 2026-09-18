@@ -26,7 +26,7 @@ Mode bawaan **light**, dapat diganti melalui ikon bulan/matahari. Preferensi ter
 
 ## Database dan penyimpanan
 
-**Produksi: PostgreSQL server**, melalui `DATABASE_URL`. **Preview lokal: PGlite** (PostgreSQL embedded) di `data/postgres`, bukan data tiruan di browser. PGlite hanya untuk pengembangan satu proses, bukan deployment berskala besar.
+**Produksi: PostgreSQL server**, melalui `DATABASE_URL`. **Preview lokal: PGlite** (PostgreSQL embedded) di memori secara default; isi `DATA_DIR` bila ingin menyimpan database ke disk. PGlite hanya untuk pengembangan satu proses, bukan deployment berskala besar.
 
 Lampiran lokal berada di `data/uploads`, tidak di folder publik. Driver S3-compatible privat tersedia melalui `STORAGE_DRIVER=s3` beserta konfigurasi `.env.example`. Driver S3 belum diuji terhadap bucket nyata karena kredensial belum disediakan.
 
