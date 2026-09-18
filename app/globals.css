@@ -191,3 +191,16 @@ html[data-theme="light"] .workflow-hero{--workflow-card:linear-gradient(145deg,#
   .upload-zone{min-height:52px!important}.upload-zone>svg{display:none}
   .form-navigation{margin-top:8px;padding-top:8px}
 }
+
+/* Keep the final action calm and anchored, even when a form step is short. */
+@media (min-width:701px){
+  .report-form-card{display:flex;flex-direction:column}
+  .report-form-card>.form-navigation{margin-top:auto;border:1px solid var(--tone-ffffff14);border-radius:10px;padding:9px 11px;background:var(--tone-141820);min-height:53px}
+  .report-form-card>.form-navigation>.field-hint{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border-radius:999px;background:var(--tone-416bff10);color:var(--tone-7187b4)!important}
+  .report-form-card>.form-navigation>.button:last-child{min-width:112px;justify-content:center}
+}
+@media (max-width:700px){
+  .report-form-card>.form-navigation{margin-top:auto;border:1px solid var(--tone-ffffff14);border-radius:9px;padding:7px 8px 7px;background:var(--tone-141820);min-height:45px}
+  .report-form-card>.form-navigation>.field-hint{display:inline-flex;align-items:center;min-height:27px;padding:0 8px;border-radius:999px;background:var(--tone-416bff10);color:var(--tone-7187b4)!important}
+  .report-form-card>.form-navigation>.button:last-child{min-width:92px;justify-content:center}
+}
