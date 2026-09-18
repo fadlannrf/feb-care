@@ -233,6 +233,18 @@ html .dashboard-layout .stat-icon.amber{
   background:var(--dash-icon);
   color:var(--dash-icon-ink);
 }
+html .dashboard-layout .stat-card:nth-child(1){background:rgba(95,126,234,.075)}
+html .dashboard-layout .stat-card:nth-child(2){background:rgba(139,120,220,.075)}
+html .dashboard-layout .stat-card:nth-child(3){background:rgba(91,157,190,.07)}
+html .dashboard-layout .stat-card:nth-child(4){background:rgba(211,164,83,.075)}
+html .dashboard-layout .stat-card:nth-child(1) .stat-icon{background:#5f7eea}
+html .dashboard-layout .stat-card:nth-child(2) .stat-icon{background:#8b78dc}
+html .dashboard-layout .stat-card:nth-child(3) .stat-icon{background:#5b9dbe}
+html .dashboard-layout .stat-card:nth-child(4) .stat-icon{background:#c4934c}
+html[data-theme='dark'] .dashboard-layout .stat-card:nth-child(1){background:rgba(95,126,234,.14)}
+html[data-theme='dark'] .dashboard-layout .stat-card:nth-child(2){background:rgba(139,120,220,.14)}
+html[data-theme='dark'] .dashboard-layout .stat-card:nth-child(3){background:rgba(91,157,190,.13)}
+html[data-theme='dark'] .dashboard-layout .stat-card:nth-child(4){background:rgba(211,164,83,.14)}
 
 /* Bento cards, charts, and tables */
 html .dashboard-layout .dashboard-charts{gap:18px;margin-bottom:19px}
