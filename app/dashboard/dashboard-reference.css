@@ -8,9 +8,9 @@ html .dashboard-layout{
   --dash-muted:#777a72;
   --dash-soft:#e9e9e2;
   --dash-line:#e5e4dc;
-  --dash-accent:#78d86c;
-  --dash-accent-strong:#4aaf53;
-  --dash-accent-ink:#235c2c;
+  --dash-accent:#dfe7ff;
+  --dash-accent-strong:#5f7eea;
+  --dash-accent-ink:#2f4a9a;
   --dash-icon:#454643;
   --dash-icon-ink:#fffefa;
   --dash-shadow:0 10px 26px rgba(45,45,37,.055);
@@ -29,9 +29,9 @@ html[data-theme='dark'] .dashboard-layout{
   --dash-muted:#aaada3;
   --dash-soft:#373832;
   --dash-line:#383a33;
-  --dash-accent:#8ddc7d;
-  --dash-accent-strong:#74c966;
-  --dash-accent-ink:#d9f2d4;
+  --dash-accent:#aebdff;
+  --dash-accent-strong:#7e96ff;
+  --dash-accent-ink:#dbe3ff;
   --dash-icon:#e0e2d8;
   --dash-icon-ink:#2a2b27;
   --dash-shadow:0 12px 32px rgba(0,0,0,.18);
@@ -83,17 +83,17 @@ html .dashboard-layout .sidebar nav>a:hover{
   transform:translateX(2px);
 }
 html .dashboard-layout .sidebar nav>a.active{
-  color:#244d2a;
+  color:#2f4a9a;
   background:var(--dash-accent);
   border-color:transparent;
-  box-shadow:inset 0 0 0 1px rgba(60,151,70,.08);
+  box-shadow:inset 0 0 0 1px rgba(95,126,234,.12);
 }
-html[data-theme='dark'] .dashboard-layout .sidebar nav>a.active{color:#173e20}
+html[data-theme='dark'] .dashboard-layout .sidebar nav>a.active{color:#dbe3ff}
 html .dashboard-layout .sidebar nav>a.active svg{color:inherit}
 html .dashboard-layout .nav-count{
   padding:2px 6px;
   border-radius:999px;
-  background:rgba(37,81,42,.12);
+  background:rgba(63,87,180,.12);
   color:inherit;
 }
 html .dashboard-layout .sidebar-bottom{
@@ -104,7 +104,7 @@ html .dashboard-layout .sidebar-bottom{
 html .dashboard-layout .sidebar-note{
   border-color:rgba(82,164,83,.16);
   border-radius:14px;
-  background:linear-gradient(145deg,rgba(120,216,108,.18),rgba(120,216,108,.05)),var(--dash-surface);
+  background:linear-gradient(145deg,rgba(95,126,234,.18),rgba(95,126,234,.05)),var(--dash-surface);
   padding:16px 14px;
 }
 html .dashboard-layout .sidebar-note>svg{color:var(--dash-accent-strong)}
@@ -167,7 +167,7 @@ html .dashboard-layout .button.primary{
   background:var(--dash-accent-strong);
   color:#fff;
 }
-html .dashboard-layout .button.primary:hover{background:#399a45}
+html .dashboard-layout .button.primary:hover{background:#4567d8}
 html .dashboard-layout .button.secondary{
   border-color:var(--dash-line);
   background:var(--dash-surface);
@@ -266,7 +266,7 @@ html .dashboard-layout .ticket-table td{
   border-bottom-color:var(--dash-line);
   color:var(--dash-muted);
 }
-html .dashboard-layout .ticket-table tr:hover td{background:rgba(120,216,108,.075)}
+html .dashboard-layout .ticket-table tr:hover td{background:rgba(95,126,234,.075)}
 html .dashboard-layout .ticket-title-link strong{color:var(--dash-ink)}
 html .dashboard-layout .ticket-title-link small,
 html .dashboard-layout .table-category,
@@ -295,7 +295,7 @@ html .dashboard-layout :is(input:not([type=checkbox]):not([type=radio]):not([typ
 html .dashboard-layout :is(input,textarea)::placeholder{color:var(--dash-muted)}
 html .dashboard-layout :is(input,select,textarea):focus{
   border-color:var(--dash-accent-strong)!important;
-  box-shadow:0 0 0 3px rgba(120,216,108,.2);
+  box-shadow:0 0 0 3px rgba(95,126,234,.2);
 }
 html .dashboard-layout select{color-scheme:light}
 html[data-theme='dark'] .dashboard-layout select{color-scheme:dark}
@@ -325,10 +325,10 @@ html .dashboard-layout .units-grid>div{
 }
 html .dashboard-layout .units-grid strong{color:var(--dash-ink)}
 html .dashboard-layout .notification-row{border-bottom-color:var(--dash-line)}
-html .dashboard-layout .notification-row.unread{background:rgba(120,216,108,.1)}
+html .dashboard-layout .notification-row.unread{background:rgba(95,126,234,.1)}
 html .dashboard-layout .notification-icon{
   border-radius:11px;
-  background:rgba(120,216,108,.14);
+  background:rgba(95,126,234,.14);
   color:var(--dash-accent-ink);
 }
 html .dashboard-layout .notification-row small{color:var(--dash-muted)}
@@ -347,7 +347,7 @@ html .dashboard-layout .report-body,
 html .dashboard-layout .event-top strong{color:var(--dash-ink)}
 html .dashboard-layout .event{border-left-color:var(--dash-line)}
 html .dashboard-layout .event-dot{border-color:var(--dash-surface);background:var(--dash-surface-alt);color:var(--dash-accent-ink)}
-html .dashboard-layout .event-dot.green{background:rgba(120,216,108,.18);color:var(--dash-accent-ink)}
+html .dashboard-layout .event-dot.green{background:rgba(95,126,234,.18);color:var(--dash-accent-ink)}
 html .dashboard-layout .event p,
 html .dashboard-layout .event small{color:var(--dash-muted)}
 html .dashboard-layout .attachments>button{
@@ -366,11 +366,11 @@ html .dashboard-layout .app-dialog{
 html .dashboard-layout .app-dialog::backdrop{background:rgba(30,31,26,.42)}
 
 html .dashboard-layout .badge{border-radius:999px}
-html .dashboard-layout .badge.green{background:rgba(94,181,89,.14);color:#28723a}
+html .dashboard-layout .badge.green{background:rgba(95,126,234,.14);color:#3856b1}
 html .dashboard-layout .badge.amber{background:#fff1d6;color:#9a681f}
 html .dashboard-layout .badge.red{background:#ffe7e4;color:#a8483f}
 html .dashboard-layout .badge.blue,
-html .dashboard-layout .badge.purple{background:rgba(120,216,108,.15);color:var(--dash-accent-ink)}
+html .dashboard-layout .badge.purple{background:rgba(95,126,234,.15);color:var(--dash-accent-ink)}
 html[data-theme='dark'] .dashboard-layout .badge.amber{background:#4b3b20;color:#f4cb72}
 html[data-theme='dark'] .dashboard-layout .badge.red{background:#512d2b;color:#f0a29b}
 
@@ -391,16 +391,47 @@ html[data-theme='dark'] .dashboard-layout .badge.red{background:#512d2b;color:#f
 }
 
 @media (max-width:700px){
+  html .dashboard-layout .dashboard-content{width:100%;min-width:0;margin-left:0}
   html .dashboard-layout .sidebar{width:235px;padding:28px 19px}
   html .dashboard-layout .sidebar-bottom{width:235px;padding-inline:19px}
   html .dashboard-layout .dashboard-header{padding-inline:17px;background:var(--dash-sidebar)}
   html .dashboard-layout .dashboard-main{padding:23px 16px 36px}
+  html .dashboard-layout .dashboard-main,
+  html .dashboard-layout .dashboard-welcome,
+  html .dashboard-layout .page-heading,
+  html .dashboard-layout .panel{min-width:0}
   html .dashboard-layout .dashboard-footer{padding-inline:17px}
   html .dashboard-layout .dashboard-welcome{padding:21px;min-height:0}
   html .dashboard-layout .dashboard-welcome h2{font-size:22px}
-  html .dashboard-layout .stat-grid{border-radius:15px}
+  html .dashboard-layout .stat-grid{grid-template-columns:1fr;border-radius:15px}
   html .dashboard-layout .stat-card{min-height:110px;padding:15px 13px}
-  html .dashboard-layout .stat-card:not(:last-child)::after{top:14px;height:calc(100% - 28px)}
+  html .dashboard-layout .stat-card:not(:last-child)::after{display:none}
+  html .dashboard-layout .stat-card:not(:last-child){border-bottom:1px solid var(--dash-line)}
+  html .dashboard-layout .dashboard-charts{grid-template-columns:1fr;gap:14px}
   html .dashboard-layout .panel{border-radius:15px}
+  html .dashboard-layout .table-panel{overflow:hidden;padding:0}
+  html .dashboard-layout .table-panel>.panel-title{padding:18px 16px 0}
+  html .dashboard-layout .table-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+  html .dashboard-layout .ticket-table{min-width:640px}
+  html .dashboard-layout .page-heading{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+  html .dashboard-layout .page-heading>.button{width:auto;max-width:100%}
+  html .dashboard-layout .panel-title{min-width:0;gap:12px}
+  html .dashboard-layout .panel-title>h3,
+  html .dashboard-layout .panel-title>p{min-width:0;overflow-wrap:anywhere}
   html .dashboard-layout .page-heading h1{font-size:28px}
+}
+
+@media (max-width:480px){
+  html .dashboard-layout .dashboard-header{padding-inline:12px}
+  html .dashboard-layout .dashboard-main{padding-inline:12px}
+  html .dashboard-layout .dashboard-footer{padding-inline:12px}
+  html .dashboard-layout .breadcrumb{max-width:calc(100vw - 128px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html .dashboard-layout .dashboard-header-right{gap:8px}
+  html .dashboard-layout .user-mini>div{display:none}
+  html .dashboard-layout .page-heading h1{font-size:25px}
+  html .dashboard-layout .dashboard-welcome{padding:18px}
+  html .dashboard-layout .dashboard-welcome h2{font-size:20px}
+  html .dashboard-layout .panel{padding:16px}
+  html .dashboard-layout .table-panel{padding:0}
+  html .dashboard-layout .table-panel>.panel-title{padding:18px 16px 0}
 }
