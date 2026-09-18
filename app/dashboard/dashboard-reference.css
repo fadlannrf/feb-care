@@ -418,10 +418,28 @@ html .dashboard-layout .dashboard-welcome{display:none}
   html .dashboard-layout .dashboard-footer{padding-inline:17px}
   html .dashboard-layout .dashboard-welcome{padding:21px;min-height:0}
   html .dashboard-layout .dashboard-welcome h2{font-size:22px}
-  html .dashboard-layout .stat-grid{grid-template-columns:1fr;border-radius:15px}
-  html .dashboard-layout .stat-card{min-height:110px;padding:15px 13px}
+  html .dashboard-layout .stat-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    overflow:visible;
+  }
+  html .dashboard-layout .stat-card{
+    min-height:136px;
+    padding:15px 14px;
+    border:1px solid var(--dash-line);
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+  }
   html .dashboard-layout .stat-card:not(:last-child)::after{display:none}
   html .dashboard-layout .stat-card:not(:last-child){border-bottom:1px solid var(--dash-line)}
+  html .dashboard-layout .stat-card>div{min-height:36px;align-items:flex-start;line-height:1.35}
+  html .dashboard-layout .stat-card>strong{font-size:29px;margin:12px 0 5px}
+  html .dashboard-layout .stat-card>p{margin-top:auto;line-height:1.45}
   html .dashboard-layout .dashboard-charts{grid-template-columns:1fr;gap:14px}
   html .dashboard-layout .panel{border-radius:15px}
   html .dashboard-layout .table-panel{overflow:hidden;padding:0}
@@ -449,4 +467,53 @@ html .dashboard-layout .dashboard-welcome{display:none}
   html .dashboard-layout .panel{padding:16px}
   html .dashboard-layout .table-panel{padding:0}
   html .dashboard-layout .table-panel>.panel-title{padding:18px 16px 0}
+}
+
+/* Compact dashboard navigation/date treatment */
+html .dashboard-layout .dashboard-date{
+  margin-left:auto;
+  color:var(--dash-muted);
+  font:9px var(--mono);
+  letter-spacing:.045em;
+  white-space:nowrap;
+}
+html .dashboard-layout .date-short{display:none}
+html .dashboard-layout .sidebar-note h4{font-size:14px;line-height:1.35;margin:10px 0 6px}
+html .dashboard-layout .sidebar-note p{font-size:10px;line-height:1.55;margin:0}
+html .dashboard-layout .sidebar-note .text-link{font-size:10px;margin-top:12px}
+
+/* Audit log: keep the heading and read-only state visually grouped. */
+html .dashboard-layout .dashboard-main:has(.badge.blue) .page-heading{align-items:flex-start;margin-bottom:20px}
+html .dashboard-layout .dashboard-main:has(.badge.blue) .page-heading>.badge{margin-top:8px;white-space:nowrap}
+html .dashboard-layout .dashboard-main:has(.badge.blue) .table-panel{border-radius:15px}
+html .dashboard-layout .dashboard-main:has(.badge.blue) .ticket-table th{font-size:10px}
+
+@media (max-width:700px){
+  html .dashboard-layout .dashboard-date{font-size:8px;max-width:78px;overflow:hidden;text-overflow:ellipsis}
+  html .dashboard-layout .date-long{display:none}
+  html .dashboard-layout .date-short{display:inline}
+  html .dashboard-layout .sidebar-note{padding:14px 13px;border-radius:12px}
+  html .dashboard-layout .sidebar-note>svg{width:16px;height:16px}
+  html .dashboard-layout .sidebar-note h4{font-size:13px;margin:8px 0 5px}
+  html .dashboard-layout .sidebar-note p{font-size:9px;line-height:1.45}
+  html .dashboard-layout .sidebar-note .text-link{font-size:9px;margin-top:9px}
+  html .dashboard-layout .dashboard-main:has(.badge.blue) .page-heading{gap:10px}
+  html .dashboard-layout .dashboard-main:has(.badge.blue) .page-heading>.badge{margin-top:0}
+  html .dashboard-layout .dashboard-main:has(.badge.blue) .table-scroll{border-radius:14px}
+  html .dashboard-layout .dashboard-main:has(.badge.blue) .ticket-table{min-width:720px}
+  html .dashboard-layout .settings-tabs{gap:18px;margin-bottom:18px}
+  html .dashboard-layout .settings-tabs>button{font-size:11px;padding-bottom:13px}
+  html .dashboard-layout .settings-content{padding:20px 16px}
+  html .dashboard-layout .settings-content h3{font-size:17px}
+  html .dashboard-layout .table-panel .ticket-table{min-width:700px}
+}
+
+html .dashboard-layout .breadcrumb-workspace{display:flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.1}
+html .dashboard-layout .breadcrumb-workspace>span{color:var(--dash-muted)}
+html .dashboard-layout .dashboard-date{margin-left:0;font-size:8px;letter-spacing:.04em;color:var(--dash-muted)}
+html .dashboard-layout .breadcrumb-workspace .date-short{display:none}
+@media (max-width:700px){
+  html .dashboard-layout .breadcrumb-workspace .date-long{display:none}
+  html .dashboard-layout .breadcrumb-workspace .date-short{display:inline}
+  html .dashboard-layout .breadcrumb{gap:8px}
 }
