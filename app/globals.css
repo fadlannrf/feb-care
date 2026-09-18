@@ -110,3 +110,84 @@ html[data-theme="light"] .workflow-hero{--workflow-card:linear-gradient(145deg,#
 .workflow-pointer{right:21px;top:47px;bottom:auto}
 @media(max-width:1100px){.workflow-pointer{right:17px;top:39px;width:32px;height:37px}}
 @media(max-width:760px){.hero-art{height:354px;margin-top:12px}.workflow-hero{width:100%;min-height:0;margin:0;padding:4px 0 0}.workflow-hero::before{inset:0 -12%}.workflow-heading{margin:0 0 6px;font-size:8px}.workflow-heading>.mono{font-size:8px}.workflow-heading>span:last-child{font-size:8px}.workflow-stages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;padding:5px 0;overflow:visible}.workflow-stage{min-height:142px;padding:10px;border-radius:17px;scroll-snap-align:none}.workflow-stage::before{border-radius:16px}.workflow-stage>header{gap:7px}.workflow-stage>header>span{width:28px;height:28px;font-size:13px}.workflow-stage>header>strong{font-size:14px}.workflow-send-visual,.workflow-review-visual,.workflow-update-visual,.workflow-resolve-visual{height:74px;margin-top:7px}.workflow-user{width:25px;height:25px;left:1px;top:15px}.workflow-user svg{width:16px;height:16px}.workflow-bubble{left:32px;right:1px;top:1px;height:30px;padding:7px 9px;border-radius:12px 12px 12px 3px}.workflow-bubble::after{bottom:-6px;border-width:7px 7px 0 0}.workflow-bubble i,.workflow-message i,.workflow-document i,.workflow-notice i{height:4px}.workflow-bubble i+i{margin-top:5px}.workflow-message{left:17px;right:3px;bottom:1px;height:38px;padding:9px 10px;border-radius:12px 12px 3px 12px}.workflow-message i{height:4px}.workflow-message i+i{margin-top:6px}.workflow-message b{right:8px;bottom:8px;width:4px;height:4px}.workflow-message b+b{right:15px}.workflow-message b+b+b{right:22px}.workflow-review-visual .workflow-user{left:1px;top:15px}.workflow-document{left:32px;right:1px;top:1px;bottom:1px;padding:8px 9px;border-radius:12px}.workflow-document i{height:4px}.workflow-document i+i{margin-top:5px}.workflow-document b{height:11px;margin-top:7px;border-radius:4px}.workflow-document b+b{height:4px;margin-top:4px}.workflow-document .short{margin-top:6px}.workflow-avatar{bottom:8px;left:9px;width:12px;height:12px}.workflow-pointer{right:8px;top:25px;width:24px;height:28px}.workflow-signal{top:3px;right:1px;width:13px;height:13px;border-width:2px;box-shadow:0 0 0 4px #1fd7aa20,0 0 11px #1fd7aa}.workflow-notice{width:100%;padding:7px;gap:6px;border-radius:12px}.workflow-notice>span{width:29px;height:29px}.workflow-notice>span svg{width:18px;height:18px}.workflow-notice>div{gap:5px}.workflow-notice i:first-child{height:5px}.workflow-resolve-visual{gap:8px}.workflow-resolve-ring{width:47px;height:47px;box-shadow:0 0 0 5px #29d6af17,0 0 18px #29d6af53}.workflow-resolve-ring svg{width:30px;height:30px}.workflow-resolve-visual>i{height:4px}.workflow-resolve-visual>i+i{margin-top:-4px}.workflow-connector,.workflow-stage:not(:last-child)::after{display:none}.workflow-caption{display:block;margin:7px 2px 0;font-size:8px;line-height:1.4}}
+
+/* The report form is a contained workspace: navigation is visible at first paint,
+   while longer form steps scroll inside their own card rather than down the page. */
+@media (min-width:701px){
+  .report-workspace{height:calc(100dvh - 98px);min-height:0;padding-top:14px;padding-bottom:14px;overflow:hidden;display:flex}
+  .report-layout{width:100%;min-height:0;align-items:stretch}
+  .report-intro{min-height:0;overflow:auto;scrollbar-width:none}
+  .report-intro::-webkit-scrollbar{display:none}
+  .report-form-card{align-self:stretch;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  .report-form-card .form-navigation{position:sticky;z-index:2;bottom:-1px;background:var(--tone-181c22)}
+}
+@media (min-width:701px) and (max-height:980px){
+  .report-layout{gap:clamp(24px,4vw,55px)}
+  .report-intro{padding-top:5px}
+  .report-intro h1{font-size:clamp(44px,5vw,60px);margin-top:14px}
+  .report-intro>p{margin-top:14px;line-height:1.65}
+  .form-stepper{margin-top:20px}
+  .form-stepper>div{min-height:57px}
+  .form-stepper>div:not(:last-child):after{height:18px;top:47px}
+  .intro-help{margin-top:16px;padding-top:14px}
+  .report-form-card{padding:20px 25px}
+  .form-card-heading{margin-bottom:15px}
+  .report-form-card h2{font-size:28px;line-height:1.08}
+  .form-description{margin:8px 0 14px;line-height:1.55}
+  .report-form-card .category-picker{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .category-picker button{min-height:57px;padding:10px;font-size:11px}
+  .stack-form{gap:10px}
+  .stack-form label{gap:5px;font-size:12px}
+  .stack-form input:not([type=checkbox]),.stack-form select{padding:9px 12px;font-size:12px}
+  .stack-form textarea{height:clamp(96px,13vh,116px);min-height:0;padding:9px 12px;font-size:12px;line-height:1.55}
+  .form-two{gap:10px}
+  .upload-zone{min-height:70px;padding:10px!important;gap:4px!important}
+  .upload-zone>svg{width:19px;height:19px}.upload-zone strong{font-size:12px;margin-top:0}.upload-zone>span{font-size:9px}
+  .check-label{font-size:11px!important;line-height:1.45!important}
+  .form-navigation{margin-top:14px;padding-top:14px}
+  .form-navigation .button{padding:9px 14px;font-size:11px}
+}
+@media (max-width:700px){
+  .report-workspace{height:calc(100dvh - 80px);min-height:0;padding:10px 16px 12px;overflow:hidden;display:flex}
+  .report-layout{display:flex;flex:1;min-height:0;height:100%;flex-direction:column;gap:7px}
+  .report-intro{padding:0;flex:none}
+  .report-intro>.eyebrow,.report-intro>p{display:none}
+  .report-intro h1{margin:0;font-size:clamp(24px,7.4vw,31px);line-height:1.1;letter-spacing:-.055em;white-space:nowrap}
+  .report-intro h1 br{display:none}
+  .form-stepper{margin-top:7px;gap:4px}
+  .form-stepper>div{flex:1;min-height:29px;gap:6px}
+  .form-stepper>div>span{width:26px;height:26px;font-size:9px}
+  .form-stepper small{display:none}
+  .form-stepper strong{font-size:9px;line-height:1.2;max-width:none;margin:0}
+  .report-form-card{align-self:stretch;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px;border-radius:14px}
+  .form-card-heading{margin-bottom:10px;font-size:10px}
+  .report-form-card h2{font-size:26px;line-height:1.07}
+  .form-description{font-size:11px;line-height:1.45;margin:6px 0 10px}
+  .category-picker{gap:6px}
+  .category-picker button{min-height:48px;padding:8px;font-size:10px;gap:6px}
+  .category-picker button>svg:first-child{width:17px;height:17px}
+  .category-picker button>span{width:calc(100% - 24px)}
+  .stack-form{gap:9px}
+  .stack-form label{gap:5px!important;font-size:11px!important}
+  .stack-form input:not([type=checkbox]),.stack-form select{padding:8px 10px;font-size:11px}
+  .stack-form textarea{height:72px;min-height:72px;padding:8px 10px;font-size:11px;line-height:1.45}
+  .field-hint{font-size:9px!important;line-height:1.25}
+  .form-two{grid-template-columns:1fr 1fr;gap:8px}
+  .upload-zone{min-height:60px;padding:9px!important;gap:3px!important}
+  .upload-zone>svg{width:18px;height:18px}.upload-zone strong{font-size:11px;margin:0}.upload-zone>span{font-size:8px}
+  .check-label{font-size:10px!important;line-height:1.4!important;gap:7px!important}
+  .check-label>input{width:14px!important;height:14px!important}
+  .form-navigation{position:sticky;z-index:2;bottom:-1px;background:var(--tone-181c22);margin-top:11px;padding:10px 0 1px;gap:10px}
+  .form-navigation .button{padding:8px 12px;font-size:10px;gap:8px}
+}
+@media (max-width:380px),(max-height:700px){
+  .report-workspace{padding-top:7px;padding-bottom:8px}
+  .report-intro h1{font-size:23px}
+  .form-stepper{margin-top:4px}.form-stepper strong{font-size:8px}
+  .report-form-card{padding:11px}
+  .report-form-card h2{font-size:23px}.form-description{display:none}
+  .category-picker button{min-height:44px;font-size:9px;padding:7px}
+  .stack-form{gap:7px}.stack-form textarea{height:62px;min-height:62px}
+  .upload-zone{min-height:52px!important}.upload-zone>svg{display:none}
+  .form-navigation{margin-top:8px;padding-top:8px}
+}

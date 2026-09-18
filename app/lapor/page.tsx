@@ -43,7 +43,7 @@ function ReportForm(){const params=useSearchParams();const {data,loading,error:l
 </Link>{data?.user&&<Link href="/dashboard" className="button secondary">Ke dashboard</Link>}
 </div>
 </div>;
- return <div className="report-layout">
+ return <div className="report-layout" data-step={step}>
 <aside className="report-intro">
 <span className="eyebrow">[ RUANG UNTUK BERSUARA ]</span>
 <h1>Setiap cerita <br/>
