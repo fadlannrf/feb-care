@@ -45,11 +45,11 @@ function ReportForm(){const params=useSearchParams();const {data,loading,error:l
 </div>;
  return <div className="report-layout">
 <aside className="report-intro">
-<span className="eyebrow">[ KAMI SIAP MENDENGAR ]</span>
-<h1>Ceritamu <br/>
-<span className="blue-text">berarti.</span>
+<span className="eyebrow">[ RUANG UNTUK BERSUARA ]</span>
+<h1>Setiap cerita <br/>
+<span className="blue-text">berharga.</span>
 </h1>
-<p>Sampaikan dengan tenang. <br/>Kami bantu menghubungkan <br/>suaramu dengan langkah nyata.</p>
+<p>Sampaikan apa yang kamu alami. <br/>Kami akan membantu meneruskannya <br/>ke langkah yang tepat.</p>
 <div className="form-stepper">{['Pilih ruang ceritamu','Sampaikan detailnya','Tinjau & kirim'].map((label,i)=>
 <div key={label} className={step===i+1?'current':step>i+1?'completed':''}>
 <span>{step>i+1?<Icon name="check" size={14}/>:String(i+1).padStart(2,'0')}
