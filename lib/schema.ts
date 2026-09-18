@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS tickets (
  location text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
  due_at timestamptz NOT NULL, resolved_at timestamptz, version integer NOT NULL DEFAULT 1,
  rating integer CHECK(rating BETWEEN 1 AND 5), feedback text, escalated boolean NOT NULL DEFAULT false
- );
+);
 CREATE INDEX IF NOT EXISTS tickets_reporter_date_idx ON tickets(reporter_id,created_at DESC);
 CREATE INDEX IF NOT EXISTS tickets_queue_idx ON tickets(unit_id,status,created_at DESC);
 CREATE INDEX IF NOT EXISTS tickets_category_idx ON tickets(category_id,created_at DESC);

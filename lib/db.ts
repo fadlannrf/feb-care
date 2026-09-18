@@ -12,7 +12,7 @@ export interface Database{q<T=Row>(sql:string,params?:any[]):Promise<T[]>;tx<T>(
 export const dataDir=()=>path.resolve(process.env.DATA_DIR||'./data');
 export const demoEnabled=()=>process.env.NODE_ENV!=='production'&&process.env.DISABLE_DEMO!=='true';
 export const demoAccounts=[{id:'demo-student',name:'Nadia Putri',role:'student',unit:null},{id:'demo-triage',name:'Rani Wulandari',role:'triage',unit:null},{id:'demo-unit',name:'Aditya Pratama',role:'unit',unit:'akademik'},{id:'demo-specialist',name:'Dina Safitri',role:'specialist',unit:'perlindungan'},{id:'demo-leader',name:'Pimpinan FEB',role:'leader',unit:null},{id:'demo-admin',name:'Admin FEB CARE',role:'admin',unit:null}];
-const productionAccounts=[
+const staffBootstrapAccounts=[
  {name:'Mahasiswa FEB CARE',email:'mahasiswa@febcare.id',role:'student',unit:null},
  {name:'Petugas FEB CARE',email:'petugas.febcare@febcare.id',role:'triage',unit:null},
  {name:'Petugas Layanan Akademik',email:'petugas.akademik@febcare.id',role:'unit',unit:'akademik'},
@@ -32,15 +32,15 @@ async function connect():Promise<Database>{let db:Database;
  for(const c of categories){const unit=['akademik','pembelajaran','studi'].includes(c.id)?'akademik':c.id==='keuangan'?'keuangan':c.id==='teknologi'?'it':c.id==='etika'?'perlindungan':['kemahasiswaan','aspirasi'].includes(c.id)?'mahasiswa':'umum';await trx.q('INSERT INTO categories(id,name,icon,description,unit_id,sla_hours,sensitive) VALUES($1,$2,$3,$4,$5,$6,$7)',[c.id,c.name,c.icon,c.description,unit,c.id==='mendesak'?24:72,c.id==='etika']);}
  });
  if(process.env.ADMIN_EMAIL&&process.env.ADMIN_PASSWORD){if(process.env.ADMIN_PASSWORD.length<12)throw Error('ADMIN_PASSWORD minimal 12 karakter.');await db.q("INSERT INTO users(id,name,email,password_hash,role) VALUES($1,'Administrator',$2,$3,'admin') ON CONFLICT(email) DO NOTHING",[randomUUID(),process.env.ADMIN_EMAIL.toLowerCase(),passwordHash(process.env.ADMIN_PASSWORD)]);}
- await seedProductionAccounts(db);
+ await seedStaffAccounts(db);
  if(demoEnabled())await seedDemo(db);
  if(!process.env.DATABASE_URL){let running=false;setInterval(async()=>{if(running)return;running=true;try{await runJobs(db);}catch(e){console.error('Background jobs:',(e as Error).message);}finally{running=false;}},60000).unref();}
  return db;
 }
-async function seedProductionAccounts(db:Database){
+async function seedStaffAccounts(db:Database){
  const password=process.env.STAFF_BOOTSTRAP_PASSWORD||'111111111111';
  if(password.length<12)return;
- await db.tx(async trx=>{for(const account of productionAccounts)await trx.q('INSERT INTO users(id,name,email,password_hash,role,unit_id) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(email) DO NOTHING',[randomUUID(),account.name,account.email,passwordHash(password),account.role,account.unit]);});
+ await db.tx(async trx=>{for(const account of staffBootstrapAccounts)await trx.q('INSERT INTO users(id,name,email,password_hash,role,unit_id) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(email) DO NOTHING',[randomUUID(),account.name,account.email,passwordHash(password),account.role,account.unit]);});
 }
 async function seedDemo(db:Database){await db.tx(async trx=>{const inserted=await trx.q("INSERT INTO app_meta(key,value) VALUES('demo_v1','1') ON CONFLICT DO NOTHING RETURNING key");if(!inserted.length)return;for(const u of demoAccounts)await trx.q('INSERT INTO users(id,name,email,role,unit_id) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING',[u.id,u.name,`${u.role}@demo.febcare.local`,u.role,u.unit]);
  const samples=[['Perubahan jadwal kelas Ekonomi Makro','akademik','in_progress'],['Pengajuan keringanan UKT semester ganjil','keuangan','received'],['Wi-Fi perpustakaan sering terputus','teknologi','resolved'],['Nilai mata kuliah belum muncul di KHS','studi','needs_info'],['Usulan ruang diskusi untuk mahasiswa','aspirasi','verified'],['Proyektor ruang B.204 tidak menyala','fasilitas','assigned'],['Surat pengantar magang belum diterima','administrasi','resolved'],['Konsultasi jadwal bimbingan skripsi','studi','awaiting_confirmation'],['Akses lift gedung perkuliahan','sarana','in_progress'],['Pendaftaran kegiatan organisasi mahasiswa','kemahasiswaan','resolved'],['Jadwal kuliah bertabrakan dengan praktikum','akademik','received'],['Permintaan pendampingan yang bersifat rahasia','etika','received'],['Usulan peminjaman buku digital','aspirasi','resolved'],['Verifikasi berkas KIP Kuliah','keuangan','assigned'],['Ketersediaan materi pembelajaran','pembelajaran','resolved'],['Penanganan kebocoran plafon ruang kelas','mendesak','in_progress']];
@@ -48,4 +48,3 @@ async function seedDemo(db:Database){await db.tx(async trx=>{const inserted=awai
  await trx.q('INSERT INTO notifications(id,user_id,title,body) VALUES($1,$2,$3,$4)',[randomUUID(),'demo-student','Selamat datang di FEB CARE','Ini ruang demo Anda. Coba membuat laporan dan ikuti progresnya.']);});}
 const globalDb=globalThis as typeof globalThis&{febDb?:Promise<Database>};
 export function getDb(){return globalDb.febDb??=connect().catch(error=>{globalDb.febDb=undefined;throw error;});}
-
