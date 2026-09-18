@@ -19,6 +19,7 @@ const staffBootstrapAccounts=[
  {name:'Petugas Keuangan & Beasiswa',email:'petugas.keuangan@febcare.id',role:'unit',unit:'keuangan'},
  {name:'Petugas Teknologi Informasi',email:'petugas.it@febcare.id',role:'unit',unit:'it'},
  {name:'Petugas Sarana & Layanan Umum',email:'petugas.umum@febcare.id',role:'unit',unit:'umum'},
+ {name:'Petugas Kemahasiswaan',email:'petugas.kemahasiswaan@febcare.id',role:'unit',unit:'mahasiswa'},
  {name:'Petugas Perlindungan Mahasiswa',email:'petugas.perlindungan@febcare.id',role:'specialist',unit:'perlindungan'},
  {name:'Pimpinan FEB',email:'pimpinan@febcare.id',role:'leader',unit:null},
  {name:'Administrator FEB CARE',email:'admin@febcare.id',role:'admin',unit:null}
