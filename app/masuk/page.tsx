@@ -41,8 +41,8 @@ export default function Login(){
    <Link href="/" className="auth-back"><Icon name="arrow" className="rotate-back" size={17}/> Kembali ke beranda</Link>
    <div className="auth-form-content">
     <span className="eyebrow">[ RUANG KAMU ]</span>
-    <h2>{register?'Mari bergabung.':'Senang bertemu lagi.'}</h2>
-    <p>{register?'Lengkapi identitas akademik agar laporanmu tercatat dengan tepat.':'Masuk dan lanjutkan hal baik yang kamu mulai.'}</p>
+    <h2>{register?'Mari bergabung.':'Selamat datang di ruang masuk FebCare'}</h2>
+    <p>{register?'Lengkapi identitas akademik agar laporanmu tercatat dengan tepat.':'Lanjutkan langkah baikmu bersama FEBCARE.'}</p>
     <form onSubmit={submit} className={`stack-form ${register?'registration-form':''}`}>
      {register&&<>
       <label>Nama lengkap<input name="name" autoComplete="name" placeholder="Nama sesuai identitas mahasiswa" minLength={2} maxLength={100} required/></label>
