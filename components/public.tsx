@@ -80,8 +80,11 @@ export function Header(){
 <p>
 <span className="drawer-line">Suara Mahasiswa,<br/>Aksi Nyata FEB.</span>
 </p>
+<div className="drawer-auth-actions">
 <Link className="drawer-login-button" href={user?'/dashboard':'/masuk'} onClick={e=>navigate(e,user?'/dashboard':'/masuk')}>{user?'Buka ruang kamu':'Masuk'}
 </Link>
+{!user&&<Link className="drawer-register-button" href="/masuk?register=1" onClick={e=>navigate(e,'/masuk?register=1')}>Daftar</Link>}
+</div>
 <span className="drawer-note">
 <span className="drawer-line">Complaints, Assistance,<br/>Response & Engagement</span>
 </span>

@@ -174,7 +174,7 @@ function ReportForm(){const params=useSearchParams();const {data,loading,error:l
 }
 export default function ReportPage(){return <>
 <Header/>
-<main className="public-workspace">
+<main className="public-workspace report-workspace">
 <Suspense fallback={<Loading/>}>
 <ReportForm/>
 </Suspense>

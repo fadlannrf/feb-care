@@ -17,6 +17,7 @@ export default function Login(){
  const {data}=useApi('/api/bootstrap');
  const [register,setRegister]=useState(false),[privacyOpen,setPrivacyOpen]=useState(false),[error,setError]=useState(''),[busy,setBusy]=useState('');
  const closeButton=useRef<HTMLButtonElement>(null);
+ useEffect(()=>{if(new URLSearchParams(window.location.search).get('register')==='1')setRegister(true);},[]);
  useEffect(()=>{if(privacyOpen){closeButton.current?.focus();const previous=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{document.body.style.overflow=previous;};}},[privacyOpen]);
  async function submit(e:React.FormEvent<HTMLFormElement>){
   e.preventDefault();setBusy('form');setError('');
