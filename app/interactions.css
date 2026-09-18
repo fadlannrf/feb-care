@@ -73,6 +73,8 @@ a:hover .brand-symbol{transform:rotate(4deg)}
 .drawer-aside p{font-size:16px;color:var(--text);line-height:1.8}
 .drawer-aside>a{font-size:12px;line-height:1.8;border-bottom:1px solid var(--line);padding-bottom:12px}
 .drawer-aside>a svg{display:block;margin-top:12px;color:var(--blue)}
+.drawer-aside>a.drawer-login-button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--blue);border-radius:999px;background:var(--blue-solid);color:#fff;padding:11px 20px;text-decoration:none;transition:background-color .2s,transform .2s}
+.drawer-aside>a.drawer-login-button:hover{background:var(--tone-4c70ff);transform:translateY(-1px)}
 .drawer-note{font-size:11px;line-height:1.9;color:var(--muted)}
 .drawer-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid var(--line);padding-top:22px}
 .drawer-bottom>.mono{font-size:9px;color:var(--muted)}
