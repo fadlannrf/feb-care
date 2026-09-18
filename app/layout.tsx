@@ -10,5 +10,5 @@ import './auth-registration.css';
 import {ThemeProvider} from '@/components/theme';
 import {SmoothScroll} from '@/components/smooth-scroll';
 import {PageMotion} from '@/components/page-motion';
-export const metadata: Metadata = {title:{default:'FEB CARE — Suara Mahasiswa, Aksi Nyata FEB.',template:'%s · FEB CARE'},description:'Satu ruang untuk aspirasi, bantuan, dan pengaduan mahasiswa Fakultas Ekonomi dan Bisnis.',robots:{index:false,follow:false},icons:{icon:'/favicon.svg'}};
+export const metadata: Metadata = {title:{default:'FEB CARE — Suara Mahasiswa, Aksi Nyata FEB.',template:'%s · FEB CARE'},description:'Satu ruang untuk aspirasi, bantuan, dan pengaduan mahasiswa Fakultas Ekonomi dan Bisnis.',robots:{index:false,follow:false},icons:{icon:{url:'/favicon.svg',type:'image/svg+xml'},shortcut:'/favicon.svg',apple:'/favicon.svg'}};
 export default function RootLayout({children}:{children:React.ReactNode}) {return <html lang="id" data-theme="light" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{__html:"try{document.documentElement.dataset.theme=localStorage.getItem('feb-care-theme')==='dark'?'dark':'light'}catch(e){}"}}/></head><body><ThemeProvider><SmoothScroll/><PageMotion>{children}</PageMotion></ThemeProvider></body></html>;}
