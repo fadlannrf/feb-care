@@ -47,6 +47,10 @@ export default function Home(){return <>
         <span className="about-media-label mono">FEB CARE · SUARA MAHASISWA</span>
       </div>
       <div className="about-copy">
+        <div className="about-institution" aria-label="Universitas Sumatera Utara, Fakultas Ekonomi dan Bisnis">
+          <img src="/images/logo-usu.png" alt="Lambang Universitas Sumatera Utara" loading="lazy" />
+          <div><strong>Universitas Sumatera Utara</strong><span>Fakultas Ekonomi dan Bisnis</span></div>
+        </div>
         <span className="eyebrow">[ TENTANG FEB CARE ]</span>
         <h2>Satu ruang untuk<br/><span>didengar dan ditindaklanjuti.</span></h2>
         <p>FEB CARE adalah ruang resmi Fakultas Ekonomi dan Bisnis USU untuk menyampaikan aspirasi, laporan, pertanyaan layanan, dan ide perbaikan dengan aman.</p>
