@@ -17,6 +17,20 @@ function defaultStatusMessage(status:string){return({verified:'Laporan telah div
 async function run(request:Request,{params}:Context){try{const parts=(await params).path;const [area,id,action]=parts;const url=new URL(request.url);const method=request.method;const db=await getDb();if(method!=='GET')checkOrigin(request);const user=await currentUser();
  if(area==='bootstrap'&&method==='GET')return json({user,demo:demoEnabled(),categories:await db.q('SELECT * FROM categories WHERE active=true ORDER BY id'),units:await db.q('SELECT * FROM units ORDER BY name')});
  if(area==='auth'){
+  if(id==='profile'&&method==='PATCH'){
+   const u=await requireUser();const b=await body(request);
+   const name=textValue(b.name,'Nama',2,100),email=emailValue(b.email);
+   const phoneValue=typeof b.phone==='string'?b.phone.trim().replace(/[\s()-]/g,''):'';
+   if(phoneValue&&!/^\+?[0-9]{9,15}$/.test(phoneValue))throw new AppError('Nomor WhatsApp belum valid. Gunakan 9–15 angka.');
+   const studentNumberValue=typeof b.student_number==='string'?b.student_number.trim().toUpperCase():'';
+   if(studentNumberValue&&(!/^[A-Z0-9.-]+$/.test(studentNumberValue)||studentNumberValue.length<5||studentNumberValue.length>30))throw new AppError('NIM belum valid.');
+   const studyProgramValue=typeof b.study_program==='string'?b.study_program.trim():'';
+   if(studyProgramValue&&!studyPrograms.includes(studyProgramValue as typeof studyPrograms[number]))throw new AppError('Pilih program studi yang tersedia.');
+   const cohortYearValue=b.cohort_year===null||b.cohort_year===undefined||b.cohort_year===''?null:int(b.cohort_year,2000,new Date().getFullYear(),0);
+   if(b.cohort_year!==null&&b.cohort_year!==undefined&&b.cohort_year!==''&&!cohortYearValue)throw new AppError('Pilih tahun angkatan yang valid.');
+   const [updated]=await db.q('UPDATE users SET name=$1,email=$2,phone=$3,student_number=$4,study_program=$5,cohort_year=$6 WHERE id=$7 RETURNING id,name,email,role,unit_id,student_number,study_program,cohort_year,phone,active',[name,email,phoneValue||null,studentNumberValue||null,studyProgramValue||null,cohortYearValue,u.id]);
+   await audit(db,u.id,'user.profile_updated',u.id);return json({user:updated});
+  }
   if(method!=='POST')throw new AppError('Metode tidak didukung.',405);
   if(id==='logout'){await clearSession();return json({ok:true});}
   const b=await body(request);await rateLimit('auth:global',150,900);
@@ -43,10 +57,23 @@ async function run(request:Request,{params}:Context){try{const parts=(await para
  if(area==='notifications'){const u=await requireUser();if(method==='GET')return json({notifications:await db.q('SELECT * FROM notifications WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100',[u.id])});if(method==='POST'){await db.q('UPDATE notifications SET read_at=now() WHERE user_id=$1 AND read_at IS NULL',[u.id]);return json({ok:true});}}
  if(area==='admin'){const u=await requireUser();if(u.role!=='admin')throw new AppError('Akses administrator diperlukan.',403);
   if(id==='audit'&&method==='GET'){const page=int(url.searchParams.get('page'),1,100000,1);const [total]=await db.q('SELECT count(*)::int AS total FROM audit_logs');return json({logs:await db.q('SELECT a.*,u.name AS actor_name FROM audit_logs a LEFT JOIN users u ON u.id=a.actor_id ORDER BY a.created_at DESC LIMIT 40 OFFSET $1',[(page-1)*40]),total:total.total,page});}
-  if(method==='GET')return json({users:await db.q('SELECT id,name,email,role,unit_id,active FROM users ORDER BY created_at'),categories:await db.q('SELECT * FROM categories ORDER BY name'),units:await db.q('SELECT * FROM units ORDER BY name'),outbox:await db.q('SELECT status,count(*)::int AS total FROM outbox GROUP BY status')});
+  if(method==='GET')return json({users:await db.q('SELECT id,name,email,role,unit_id,student_number,study_program,cohort_year,phone,active FROM users ORDER BY created_at'),categories:await db.q('SELECT * FROM categories ORDER BY name'),units:await db.q('SELECT * FROM units ORDER BY name'),outbox:await db.q('SELECT status,count(*)::int AS total FROM outbox GROUP BY status')});
   const b=await body(request);
   if(id==='users'&&method==='POST'){const name=textValue(b.name,'Nama',2,100),email=emailValue(b.email),password=strongPassword(b.password);if(!roles[b.role])throw new AppError('Peran tidak valid.');if(['unit','specialist'].includes(b.role)&&!b.unit_id)throw new AppError('Peran ini memerlukan unit.');const uid=randomUUID();await db.q('INSERT INTO users(id,name,email,password_hash,role,unit_id) VALUES($1,$2,$3,$4,$5,$6)',[uid,name,email,passwordHash(password),b.role,b.unit_id||null]);await audit(db,u.id,'user.created',uid,b.role);return json({ok:true},201);}
-  if(id==='users'&&method==='PATCH'){if(b.id===u.id)throw new AppError('Akun Anda sendiri tidak dapat dinonaktifkan.');await db.tx(async tx=>{await tx.q('UPDATE users SET active=$1 WHERE id=$2',[b.active===true,b.id]);if(!b.active)await tx.q('DELETE FROM sessions WHERE user_id=$1',[b.id]);await audit(tx,u.id,'user.access_changed',b.id);});return json({ok:true});}
+  if(id==='users'&&method==='PATCH'){
+   const [target]=await db.q('SELECT * FROM users WHERE id=$1',[b.id]);if(!target)throw new AppError('Pengguna tidak ditemukan.',404);
+   if(target.id===u.id&&(b.active===false||b.role&&b.role!=='admin'))throw new AppError('Administrator aktif tidak dapat menonaktifkan atau menurunkan perannya sendiri.');
+   const name=b.name===undefined?target.name:textValue(b.name,'Nama',2,100),email=b.email===undefined?target.email:emailValue(b.email),role=b.role===undefined?target.role:String(b.role);
+   if(!roles[role])throw new AppError('Peran tidak valid.');
+   const unitId=b.unit_id===undefined?target.unit_id:(b.unit_id||null);if(['unit','specialist'].includes(role)&&!unitId)throw new AppError('Peran ini memerlukan unit.');
+   if(unitId){const [unit]=await db.q('SELECT id FROM units WHERE id=$1',[unitId]);if(!unit)throw new AppError('Unit tidak ditemukan.',404);}
+   const phoneValue=b.phone===undefined?target.phone:(typeof b.phone==='string'?b.phone.trim().replace(/[\s()-]/g,'')||null:null);if(phoneValue&&!/^\+?[0-9]{9,15}$/.test(phoneValue))throw new AppError('Nomor WhatsApp belum valid.');
+   const studentNumber=b.student_number===undefined?target.student_number:(String(b.student_number||'').trim().toUpperCase()||null);if(studentNumber&&(!/^[A-Z0-9.-]+$/.test(studentNumber)||studentNumber.length<5||studentNumber.length>30))throw new AppError('NIM belum valid.');
+   const studyProgram=b.study_program===undefined?target.study_program:(String(b.study_program||'').trim()||null);if(studyProgram&&!studyPrograms.includes(studyProgram as typeof studyPrograms[number]))throw new AppError('Pilih program studi yang tersedia.');
+   const cohortYear=b.cohort_year===undefined?target.cohort_year:(b.cohort_year===null||b.cohort_year===''?null:int(b.cohort_year,2000,new Date().getFullYear(),0));if(b.cohort_year!==undefined&&b.cohort_year!==null&&b.cohort_year!==''&&!cohortYear)throw new AppError('Pilih tahun angkatan yang valid.');
+   const pass=b.password?passwordHash(strongPassword(b.password)):target.password_hash;const active=b.active===undefined?target.active:b.active===true;
+   await db.tx(async tx=>{await tx.q('UPDATE users SET name=$1,email=$2,password_hash=$3,role=$4,unit_id=$5,student_number=$6,study_program=$7,cohort_year=$8,phone=$9,active=$10 WHERE id=$11',[name,email,pass,role,unitId,studentNumber,studyProgram,cohortYear,phoneValue,active,target.id]);if(!active)await tx.q('DELETE FROM sessions WHERE user_id=$1',[target.id]);await audit(tx,u.id,'user.updated',target.id,JSON.stringify({active,role}));});return json({ok:true});
+  }
   if(id==='categories'&&method==='PATCH'){const hours=int(b.sla_hours,1,720,0);if(!hours)throw new AppError('SLA antara 1–720 jam.');await db.q('UPDATE categories SET sla_hours=$1,unit_id=$2,active=$3 WHERE id=$4',[hours,b.unit_id,b.active!==false,b.id]);await audit(db,u.id,'category.updated',b.id);return json({ok:true});}
   if(id==='units'&&method==='POST'){await db.q('INSERT INTO units(id,name) VALUES($1,$2)',[randomUUID(),textValue(b.name,'Nama unit',3,100)]);await audit(db,u.id,'unit.created',null);return json({ok:true},201);}
  }

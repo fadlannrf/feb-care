@@ -222,3 +222,20 @@ html[data-theme="light"] .workflow-hero{--workflow-card:linear-gradient(145deg,#
   .report-workspace{height:auto;min-height:0;overflow:visible;padding-bottom:28px}
   .report-layout{height:auto;align-items:start}
 }
+
+/* About FEB CARE: a focused introduction between the hero and services. */
+.about-section{max-width:1530px;margin:0 auto;padding:96px 56px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:74px;align-items:center;border-bottom:1px solid var(--line)}
+.about-media{position:relative;min-height:390px;overflow:hidden;background:var(--tone-191b1e);border:1px solid var(--tone-ffffff12);border-radius:10px}
+.about-media img{display:block;width:100%;height:100%;min-height:390px;object-fit:cover;object-position:center;filter:saturate(.86) contrast(1.03)}
+.about-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,var(--tone-0009));pointer-events:none}
+.about-media-label{position:absolute;z-index:1;left:23px;bottom:20px;color:var(--tone-e0e6ff);font-size:10px;letter-spacing:.08em}
+.about-copy{max-width:570px}
+.about-copy h2{font-size:clamp(42px,4.4vw,68px);line-height:1.05;margin-top:25px;letter-spacing:-.065em}
+.about-copy h2 span{color:var(--blue)}
+.about-copy>p{font-size:14px;line-height:1.85;margin-top:24px;max-width:510px}
+.about-copy>p+p{margin-top:13px}
+.about-points{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:29px;color:var(--tone-cbd2e0);font-size:12px}
+.about-points span{display:inline-flex;align-items:center;gap:7px}
+.about-points svg{color:var(--tone-8fa7ff)}
+@media (max-width:1100px){.about-section{padding:78px 32px;gap:42px}.about-media,.about-media img{min-height:330px}.about-copy h2{font-size:52px}.about-copy>p{font-size:13px}}
+@media (max-width:760px){.about-section{display:flex;flex-direction:column;padding:62px 20px;gap:34px;align-items:stretch}.about-media,.about-media img{min-height:245px}.about-media{border-radius:8px}.about-media-label{left:16px;bottom:15px;font-size:8px}.about-copy h2{font-size:42px;margin-top:20px}.about-copy>p{font-size:12px;line-height:1.75;margin-top:19px}.about-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:10px;margin-top:24px}}

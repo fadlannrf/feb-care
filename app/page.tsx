@@ -41,6 +41,20 @@ export default function Home(){return <>
       <span><Icon name="message"/> Komunikasi dua arah</span><span><Icon name="spark"/> Perubahan yang berarti</span>
     </div>
 
+    <section id="tentang" className="about-section reveal">
+      <div className="about-media">
+        <img src="/images/feb-care-team.jpg" alt="Pimpinan dan sivitas akademika FEB USU" loading="lazy" />
+        <span className="about-media-label mono">FEB CARE · SUARA MAHASISWA</span>
+      </div>
+      <div className="about-copy">
+        <span className="eyebrow">[ TENTANG FEB CARE ]</span>
+        <h2>Satu ruang untuk<br/><span>didengar dan ditindaklanjuti.</span></h2>
+        <p>FEB CARE adalah ruang resmi Fakultas Ekonomi dan Bisnis USU untuk menyampaikan aspirasi, laporan, pertanyaan layanan, dan ide perbaikan dengan aman.</p>
+        <p>Setiap laporan diterima, ditinjau, dan diteruskan kepada unit yang tepat. Kamu dapat memantau prosesnya sampai ada penyelesaian yang jelas.</p>
+        <div className="about-points"><span><Icon name="shield" size={17}/> Identitas terlindungi</span><span><Icon name="check" size={17}/> Penanganan terarah</span><span><Icon name="eye" size={17}/> Proses transparan</span></div>
+      </div>
+    </section>
+
     <section id="layanan" className="section services">
       <div className="section-head reveal"><span className="eyebrow">[ 01 — KAMI MENDENGARKAN ]</span><div><h2>Apa pun ceritanya,<br/>ada ruang <span className="muted">di sini.</span></h2><p>Dari urusan perkuliahan hingga ide untuk masa depan.<br/>Satu pintu untuk hal-hal yang penting bagi kamu.</p></div></div>
       <div className="category-grid">{categories.slice(0,6).map((category,index)=><Link key={category.id} href={`/lapor?kategori=${category.id}`} className="category-card reveal"><div className="card-top"><Icon name={category.icon} size={29}/><span className="mono">0{index+1}</span></div><h3>{category.name}</h3><p>{category.description}</p><span className="card-arrow"><Icon name="upRight"/></span></Link>)}</div>

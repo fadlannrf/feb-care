@@ -29,13 +29,14 @@ export function Header(){
   if(!mounted.current)return;el.close();setMenu(false);setClosing(false);closingRef.current=false;resumePageScroll();trigger.current?.focus({preventScroll:true});after?.();
  }
  function navigate(e:React.MouseEvent<HTMLAnchorElement>,href:string){if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();void close(()=>{const url=new URL(href,location.origin);if(url.pathname===location.pathname&&url.hash){router.push(href,{scroll:false});scrollToSection(url.hash);}else router.push(href);});}
- const items=[['Beranda','/'],['Layanan','/#layanan'],['Cara kerja','/#alur'],['Lacak laporan','/lacak'],['Sampaikan suara','/lapor']];
+ const items=[['Beranda','/'],['Tentang','/#tentang'],['Layanan','/#layanan'],['Cara kerja','/#alur'],['Lacak laporan','/lacak'],['Sampaikan suara','/lapor']];
  return <>
 <header className="site-header">
 <Link href="/" aria-label="FEB CARE beranda">
 <Brand/>
 </Link>
 <nav className="public-nav" aria-label="Navigasi utama">
+<Link href="/#tentang">Tentang</Link>
 <Link href="/#layanan">Layanan</Link>
 <Link href="/#alur">Cara kerja</Link>
 <Link href="/lacak">Lacak laporan <Icon name="upRight" size={15}/>
