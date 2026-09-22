@@ -52,6 +52,12 @@ export default function Home(){return <>
         <p>FEB CARE adalah ruang resmi Fakultas Ekonomi dan Bisnis USU untuk menyampaikan aspirasi, laporan, pertanyaan layanan, dan ide perbaikan dengan aman.</p>
         <p>Setiap laporan diterima, ditinjau, dan diteruskan kepada unit yang tepat. Kamu dapat memantau prosesnya sampai ada penyelesaian yang jelas.</p>
         <div className="about-points"><span><Icon name="shield" size={17}/> Identitas terlindungi</span><span><Icon name="check" size={17}/> Penanganan terarah</span><span><Icon name="eye" size={17}/> Proses transparan</span></div>
+        <div className="about-leaders" aria-label="Pimpinan Fakultas Ekonomi dan Bisnis USU">
+          <div><strong>Dr. Abdillah Arif Nasution, S.E., M.Si., Ak., CA., QGIA., CHRS</strong><span>Dekan FEB USU</span></div>
+          <div><strong>Prof. Dr. Arlina Nurbaiti Lubis, S.E., MBA</strong><span>Wakil Dekan I</span></div>
+          <div><strong>Dr. Inneke Qamariah, S.E., M.Si.</strong><span>Wakil Dekan II</span></div>
+          <div><strong>Inggrita Gusti Sari Nasution, S.E., M.Si.</strong><span>Wakil Dekan III</span></div>
+        </div>
       </div>
     </section>
 
