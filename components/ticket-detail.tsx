@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api, Badge, ErrorMessage, Notice } from './client';
 import { Icon } from './icon';
 import { formatDate, statuses } from '@/lib/shared';
@@ -13,9 +13,26 @@ export function TicketDetail({ data, reload, accessKey = '', units = [], user }:
 }) {
     const { ticket: t, events, attachments, owner, staff } = data;
     const canAssign = user?.role === 'leader' || user?.role === 'admin';
-    const [message, setMessage] = useState(''), [internal, setInternal] = useState(false), [next, setNext] = useState(''), [unit, setUnit] = useState(t.unit_id || ''), [reason, setReason] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false), [uploading, setUploading] = useState(false), [rating, setRating] = useState(t.rating || 0), [feedback, setFeedback] = useState(''), [saved, setSaved] = useState(Boolean(t.rating)), [celebrating, setCelebrating] = useState(false);
+    const [message, setMessage] = useState(''), [internal, setInternal] = useState(false), [next, setNext] = useState(''), [unit, setUnit] = useState(t.unit_id || ''), [reason, setReason] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false), [uploading, setUploading] = useState(false), [deleting, setDeleting] = useState(''), [attachmentMeta, setAttachmentMeta] = useState<Record<string, { canDelete: boolean; uploaderName: string; uploaderRole: string }>>({}), [rating, setRating] = useState(t.rating || 0), [feedback, setFeedback] = useState(''), [saved, setSaved] = useState(Boolean(t.rating)), [celebrating, setCelebrating] = useState(false);
     const headers: Record<string, string> = accessKey ? { 'x-tracking-key': accessKey } : {};
     const closed = ['resolved', 'rejected', 'closed'].includes(t.status);
+    useEffect(() => {
+        let active = true;
+        const permissionHeaders: Record<string, string> = accessKey ? { 'x-tracking-key': accessKey } : {};
+        Promise.all(attachments.map(async (file: any) => {
+            const response = await fetch(`/api/attachments/${file.id}?meta=1`, { headers: permissionHeaders });
+            if (!response.ok)
+                throw new Error('Metadata lampiran tidak tersedia.');
+            return [file.id, await response.json()] as const;
+        })).then(entries => {
+            if (active)
+                setAttachmentMeta(Object.fromEntries(entries));
+        }).catch(() => {
+            if (active)
+                setAttachmentMeta({});
+        });
+        return () => { active = false; };
+    }, [accessKey, attachments]);
     async function send() { if (!message.trim())
         return; setBusy(true); setError(''); try {
         await api(`/api/tickets/${t.id}/messages`, { method: 'POST', headers, body: JSON.stringify({ message, internal }) });
@@ -70,6 +87,22 @@ export function TicketDetail({ data, reload, accessKey = '', units = [], user }:
     catch (e) {
         setError((e as Error).message);
     } }
+    async function deleteAttachment(file: any) {
+        if (deleting || !window.confirm(`Hapus lampiran “${file.name}”?`))
+            return;
+        setDeleting(file.id);
+        setError('');
+        try {
+            await api(`/api/attachments/${file.id}`, { method: 'DELETE', headers });
+            await reload();
+        }
+        catch (e) {
+            setError((e as Error).message);
+        }
+        finally {
+            setDeleting('');
+        }
+    }
     return <>{celebrating && <div className="rating-celebration" role="status" aria-live="polite">
 <div className="rating-celebration-card">
 <div className="rating-celebration-mark">
@@ -102,12 +135,14 @@ export function TicketDetail({ data, reload, accessKey = '', units = [], user }:
 </div>
 <p className="report-body">{t.description}</p>{t.location && <div className="detail-location">
 <Icon name="building" size={16}/>{t.location}</div>}{attachments.length > 0 && <div className="attachments">
-<h4>Lampiran laporan</h4>{attachments.map((f: any) => <button onClick={() => download(f)} key={f.id}>
+<h4>Lampiran laporan</h4>{attachments.map((f: any) => <div className="attachment-row" key={f.id}><button className="attachment-download" onClick={() => download(f)}>
 <Icon name="file" size={19}/>
-<span>{f.name}<small>{(f.size / 1024).toFixed(0)} KB</small>
+<span>{f.name}<small>{(f.size / 1024).toFixed(0)} KB{attachmentMeta[f.id]?.uploaderName && <> · Ditambahkan oleh {attachmentMeta[f.id].uploaderName}{attachmentMeta[f.id].uploaderRole ? ` (${attachmentMeta[f.id].uploaderRole})` : ''}</>}</small>
 </span>
 <Icon name="download" size={17}/>
-</button>)}</div>}{staff && !closed && <div className="attachment-upload">
+</button>{attachmentMeta[f.id]?.canDelete && !closed && <button className="attachment-delete" onClick={() => void deleteAttachment(f)} disabled={deleting === f.id} aria-label={`Hapus ${f.name}`} title="Hapus lampiran">
+<Icon name="close" size={16}/><span>{deleting === f.id ? 'Menghapus…' : 'Hapus'}</span>
+</button>}</div>)}</div>}{staff && !closed && <div className="attachment-upload">
 <h4>Tambah bukti penanganan</h4>
 <p>Unggah foto atau dokumen yang membuktikan tindak lanjut laporan.</p>
 <label className="upload-zone staff-upload">

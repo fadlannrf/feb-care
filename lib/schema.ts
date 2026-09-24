@@ -30,11 +30,34 @@ CREATE INDEX IF NOT EXISTS tickets_search_idx ON tickets USING gin(to_tsvector('
 CREATE TABLE IF NOT EXISTS events (id text PRIMARY KEY, ticket_id text NOT NULL REFERENCES tickets(id), actor_id text REFERENCES users(id), actor_label text NOT NULL, kind text NOT NULL, body text NOT NULL, status text, internal boolean NOT NULL DEFAULT false, created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS events_ticket_idx ON events(ticket_id,created_at);
 CREATE TABLE IF NOT EXISTS attachments (id text PRIMARY KEY, ticket_id text NOT NULL REFERENCES tickets(id), name text NOT NULL, mime text NOT NULL, size integer NOT NULL CHECK(size>0), storage_key text NOT NULL UNIQUE, created_at timestamptz NOT NULL DEFAULT now());
+ALTER TABLE attachments ADD COLUMN IF NOT EXISTS uploaded_by_user_id text REFERENCES users(id) ON DELETE SET NULL;
+ALTER TABLE attachments ADD COLUMN IF NOT EXISTS uploaded_by_owner boolean NOT NULL DEFAULT false;
 CREATE INDEX IF NOT EXISTS attachments_ticket_idx ON attachments(ticket_id);
 CREATE TABLE IF NOT EXISTS notifications (id text PRIMARY KEY, user_id text NOT NULL REFERENCES users(id), ticket_id text REFERENCES tickets(id), title text NOT NULL, body text NOT NULL, read_at timestamptz, created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS notifications_user_idx ON notifications(user_id,created_at DESC);
 CREATE TABLE IF NOT EXISTS audit_logs (id text PRIMARY KEY, actor_id text REFERENCES users(id), action text NOT NULL, entity_id text, detail text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS audit_date_idx ON audit_logs(created_at DESC);
+UPDATE attachments a
+SET uploaded_by_user_id = (
+ SELECT al.actor_id FROM audit_logs al
+ WHERE al.action='attachment.added' AND al.entity_id=a.ticket_id
+ ORDER BY abs(extract(epoch FROM (al.created_at-a.created_at)))
+ LIMIT 1
+)
+WHERE a.uploaded_by_user_id IS NULL;
+UPDATE attachments a
+SET uploaded_by_owner = true
+FROM tickets t
+WHERE a.ticket_id=t.id AND a.uploaded_by_owner=false AND (
+ a.uploaded_by_user_id=t.reporter_id OR (
+  a.uploaded_by_user_id IS NULL AND EXISTS (
+   SELECT 1 FROM audit_logs al
+   WHERE al.action='attachment.added' AND al.entity_id=a.ticket_id
+     AND abs(extract(epoch FROM (al.created_at-a.created_at)))<30
+     AND al.actor_id IS NULL
+  )
+ )
+);
 CREATE TABLE IF NOT EXISTS outbox (id text PRIMARY KEY, user_id text NOT NULL REFERENCES users(id), subject text NOT NULL, body text NOT NULL, status text NOT NULL DEFAULT 'pending', attempts integer NOT NULL DEFAULT 0, last_error text, next_attempt_at timestamptz NOT NULL DEFAULT now(), created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS outbox_pending_idx ON outbox(status,next_attempt_at);
 CREATE TABLE IF NOT EXISTS rate_limits (key text PRIMARY KEY, count integer NOT NULL, expires_at timestamptz NOT NULL);
