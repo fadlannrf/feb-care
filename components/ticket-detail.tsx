@@ -11,7 +11,7 @@ export function TicketDetail({ data, reload, accessKey = '', units = [] }: {
     units?: any[];
 }) {
     const { ticket: t, events, attachments, owner, staff } = data;
-    const [message, setMessage] = useState(''), [internal, setInternal] = useState(false), [next, setNext] = useState(''), [unit, setUnit] = useState(t.unit_id || ''), [reason, setReason] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false), [rating, setRating] = useState(t.rating || 0), [feedback, setFeedback] = useState(''), [saved, setSaved] = useState(Boolean(t.rating)), [celebrating, setCelebrating] = useState(false);
+    const [message, setMessage] = useState(''), [internal, setInternal] = useState(false), [next, setNext] = useState(''), [unit, setUnit] = useState(t.unit_id || ''), [reason, setReason] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false), [uploading, setUploading] = useState(false), [rating, setRating] = useState(t.rating || 0), [feedback, setFeedback] = useState(''), [saved, setSaved] = useState(Boolean(t.rating)), [celebrating, setCelebrating] = useState(false);
     const headers: Record<string, string> = accessKey ? { 'x-tracking-key': accessKey } : {};
     const closed = ['resolved', 'rejected', 'closed'].includes(t.status);
     async function send() { if (!message.trim())
@@ -37,6 +37,22 @@ export function TicketDetail({ data, reload, accessKey = '', units = [] }: {
     }
     finally {
         setBusy(false);
+    } }
+    async function uploadAttachment(file: File) { if (uploading)
+        return; if (file.size > 10 * 1024 * 1024) {
+        setError('Ukuran lampiran maksimal 10 MB.');
+        return;
+    } setUploading(true); setError(''); try {
+        const form = new FormData();
+        form.set('file', file);
+        await api(`/api/tickets/${t.id}/attachments`, { method: 'POST', headers, body: form });
+        await reload();
+    }
+    catch (e) {
+        setError((e as Error).message);
+    }
+    finally {
+        setUploading(false);
     } }
     async function download(file: any) { setError(''); try {
         const r = await fetch(`/api/attachments/${file.id}`, { headers });
@@ -84,12 +100,22 @@ export function TicketDetail({ data, reload, accessKey = '', units = [] }: {
 </div>
 <p className="report-body">{t.description}</p>{t.location && <div className="detail-location">
 <Icon name="building" size={16}/>{t.location}</div>}{attachments.length > 0 && <div className="attachments">
-<h4>Bukti pendukung</h4>{attachments.map((f: any) => <button onClick={() => download(f)} key={f.id}>
+<h4>Lampiran laporan</h4>{attachments.map((f: any) => <button onClick={() => download(f)} key={f.id}>
 <Icon name="file" size={19}/>
 <span>{f.name}<small>{(f.size / 1024).toFixed(0)} KB</small>
 </span>
 <Icon name="download" size={17}/>
-</button>)}</div>}</section>
+</button>)}</div>}{staff && !closed && <div className="attachment-upload">
+<h4>Tambah bukti penanganan</h4>
+<p>Unggah foto atau dokumen yang membuktikan tindak lanjut laporan.</p>
+<label className="upload-zone staff-upload">
+<Icon name="upload" size={22}/>
+<strong>{uploading ? 'Mengunggah…' : 'Unggah bukti penanganan'}</strong>
+<span>JPG, PNG, WebP, PDF · maksimal 10 MB/file</span>
+<input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" disabled={uploading} onChange={e => { const file = e.target.files?.[0]; if (file)
+    void uploadAttachment(file); e.currentTarget.value = ''; }}/>
+</label>
+</div>}</section>
 <section className="panel">
 <div className="panel-title">
 <h3>Perjalanan laporanmu</h3>
