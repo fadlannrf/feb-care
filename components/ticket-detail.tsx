@@ -4,13 +4,15 @@ import { api, Badge, ErrorMessage, Notice } from './client';
 import { Icon } from './icon';
 import { formatDate, statuses } from '@/lib/shared';
 const nextStatuses: Record<string, string[]> = { received: ['verified', 'needs_info', 'rejected'], verified: ['assigned', 'needs_info', 'rejected'], assigned: ['in_progress', 'needs_info'], in_progress: ['needs_info', 'awaiting_confirmation'], needs_info: ['verified', 'in_progress', 'rejected'] };
-export function TicketDetail({ data, reload, accessKey = '', units = [] }: {
+export function TicketDetail({ data, reload, accessKey = '', units = [], user }: {
     data: any;
     reload: () => Promise<void>;
     accessKey?: string;
     units?: any[];
+    user?: any;
 }) {
     const { ticket: t, events, attachments, owner, staff } = data;
+    const canAssign = user?.role === 'leader' || user?.role === 'admin';
     const [message, setMessage] = useState(''), [internal, setInternal] = useState(false), [next, setNext] = useState(''), [unit, setUnit] = useState(t.unit_id || ''), [reason, setReason] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false), [uploading, setUploading] = useState(false), [rating, setRating] = useState(t.rating || 0), [feedback, setFeedback] = useState(''), [saved, setSaved] = useState(Boolean(t.rating)), [celebrating, setCelebrating] = useState(false);
     const headers: Record<string, string> = accessKey ? { 'x-tracking-key': accessKey } : {};
     const closed = ['resolved', 'rejected', 'closed'].includes(t.status);
@@ -164,7 +166,7 @@ export function TicketDetail({ data, reload, accessKey = '', units = [] }: {
 <h3>Tindak lanjut</h3>
 <div className="stack-form compact">
 <label>Status berikutnya<select value={next} onChange={e => setNext(e.target.value)}>
-<option value="">Pilih status</option>{(nextStatuses[t.status] || []).map(s => <option value={s} key={s}>{statuses[s].label}</option>)}</select>
+<option value="">Pilih status</option>{(nextStatuses[t.status] || []).filter(s => s !== 'assigned' || canAssign).map(s => <option value={s} key={s}>{statuses[s].label}</option>)}</select>
 </label>{next === 'assigned' && <label>Unit tujuan<select value={unit} onChange={e => setUnit(e.target.value)}>
 <option value="">Pilih unit</option>{units.filter(u => !t.sensitive || u.id === 'perlindungan').map(u => <option key={u.id} value={u.id}>{u.name}</option>)}</select>
 </label>}<label>Catatan untuk pelapor <small>(opsional)</small><textarea rows={4} value={reason} onChange={e => setReason(e.target.value)} placeholder="Tambahkan penjelasan untuk pelapor bila diperlukan." maxLength={3000}/>
